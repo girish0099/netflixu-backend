@@ -11,7 +11,7 @@ app.use(cors({
 
 // ================= CONFIG =================
 
-const KEY = "b46f879d2a5cac35efde91968dc2d99f";   // 🔥 put your key here
+const KEY = "b46f879d2a5cac35efde91968dc2d99f";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 
@@ -40,12 +40,10 @@ async function fetchWithCache(url) {
 
 // ================= SAFE FETCH =================
 
-async function getAllPages(url, pages = 1) {   // 🔥 changed to 1 page only
+async function getAllPages(url, pages = 1) {
   let movies = [];
 
   for (let i = 1; i <= pages; i++) {
-
-    // small delay to prevent rate limit
     await new Promise(r => setTimeout(r, 250));
 
     const d = await fetchWithCache(`${url}&page=${i}`);
@@ -95,6 +93,77 @@ app.get("/asian", async (req, res) => {
 
 app.get("/emmy", async (req, res) => {
   res.json(await getAllPages(`${BASE}/discover/tv?api_key=${KEY}&sort_by=vote_average.desc&vote_count.gte=500`));
+});
+
+// ================= NEW CATEGORIES =================
+
+// 📚 Books (Book Adaptations)
+app.get("/books", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/movie?api_key=${KEY}&with_keywords=818`
+    )
+  );
+});
+
+// 🎬 Shorts (Short Films)
+app.get("/short", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/movie?api_key=${KEY}&with_genres=10755`
+    )
+  );
+});
+
+// 🎌 Anime (TV + Movies)
+app.get("/anime", async (req, res) => {
+
+  const tv = await getAllPages(
+    `${BASE}/discover/tv?api_key=${KEY}&with_genres=16&with_original_language=ja`
+  );
+
+  const movies = await getAllPages(
+    `${BASE}/discover/movie?api_key=${KEY}&with_genres=16&with_original_language=ja`
+  );
+
+  res.json([...tv, ...movies]);
+});
+
+
+// 🏆 Sports
+app.get("/sports", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/movie?api_key=${KEY}&with_keywords=180547`
+    )
+  );
+});
+
+// 🔥 Violent (Action + Thriller)
+app.get("/violent", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/movie?api_key=${KEY}&with_genres=28,53`
+    )
+  );
+});
+
+// 🔞 Adult (Mature Rated – Not Explicit)
+app.get("/adult", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/movie?api_key=${KEY}&certification_country=US&certification=R`
+    )
+  );
+});
+
+// 📺 Reality
+app.get("/reality", async (req, res) => {
+  res.json(
+    await getAllPages(
+      `${BASE}/discover/tv?api_key=${KEY}&with_genres=10764`
+    )
+  );
 });
 
 // ================= SEARCH =================
