@@ -115,19 +115,6 @@ app.get("/short", async (req, res) => {
   );
 });
 
-// 🎌 Anime (TV + Movies)
-app.get("/anime", async (req, res) => {
-
-  const tv = await getAllPages(
-    `${BASE}/discover/tv?api_key=${KEY}&with_genres=16&with_original_language=ja`
-  );
-
-  const movies = await getAllPages(
-    `${BASE}/discover/movie?api_key=${KEY}&with_genres=16&with_original_language=ja`
-  );
-
-  res.json([...tv, ...movies]);
-});
 
 
 // 🏆 Sports
@@ -227,6 +214,20 @@ app.get("/trailer/:title", async (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("NetflixU Backend Running 🚀");
+});
+
+// 🎌 Anime (TV + Movies)
+app.get("/anime", async (req, res) => {
+
+  const tv = await getAllPages(
+    `${BASE}/discover/tv?api_key=${KEY}&with_genres=16&with_original_language=ja`
+  );
+
+  const movies = await getAllPages(
+    `${BASE}/discover/movie?api_key=${KEY}&with_genres=16&with_original_language=ja`
+  );
+
+  res.json([...tv, ...movies]);
 });
 
 // ================= START =================
