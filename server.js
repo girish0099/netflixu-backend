@@ -50,15 +50,23 @@ async function getAllPages(url, pages = 1) {
 
     if (d?.results) {
       movies.push(
-        ...d.results.map(m => ({
-          title: m.title || m.name || "",
-          poster: m.poster_path ? IMG + m.poster_path : "",
-          overview: m.overview || "",
-          rating: m.vote_average || "",
-          id: m.id,
-          type: m.media_type || (m.title ? "movie" : "tv")
-        }))
-      );
+  ...d.results.map(m => ({
+    title: m.title || m.name || "",
+
+    poster: m.poster_path
+      ? IMG + m.poster_path
+      : "",
+
+    backdrop: m.backdrop_path
+      ? "https://image.tmdb.org/t/p/original" + m.backdrop_path
+      : "",
+
+    overview: m.overview || "",
+    rating: m.vote_average || "",
+    id: m.id,
+    type: m.media_type || (m.title ? "movie" : "tv")
+  }))
+);
     }
   }
 
