@@ -11,7 +11,7 @@ app.use(cors({
 
 // ================= CONFIG =================
 
-const KEY = process.env.TMDB_KEY || "b46f879d2a5cac35efde91968dc2d99f";
+const KEY = process.env.TMDB_KEY;
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 
@@ -105,32 +105,7 @@ app.get("/emmy", async (req, res) => {
 
 // ================= NEW CATEGORIES =================
 
-// 📚 Crime (Book Adaptations)
-app.get("/crime", async (req,res)=>{
- res.json(
-  await getAllPages(
-   `${BASE}/discover/movie?api_key=${KEY}&with_genres=80`
-  )
- );
-});
 
-// 🎬 Family (Short Films)
-app.get("/family", async (req,res)=>{
- res.json(
-  await getAllPages(
-   `${BASE}/discover/movie?api_key=${KEY}&with_genres=10751`
-  )
- );
-});
-
-// Fantasy
-app.get("/fantasy", async (req,res)=>{
- res.json(
-  await getAllPages(
-   `${BASE}/discover/movie?api_key=${KEY}&with_genres=14`
-  )
- );
-});
 
 // 🏆 Sports
 app.get("/sports", async (req, res) => {
