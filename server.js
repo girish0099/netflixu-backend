@@ -11,7 +11,7 @@ app.use(cors({
 
 // ================= CONFIG =================
 
-const KEY = "b46f879d2a5cac35efde91968dc2d99f";
+const KEY = process.env.TMDB_KEY || "b46f879d2a5cac35efde91968dc2d99f";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 
@@ -40,7 +40,7 @@ async function fetchWithCache(url) {
 
 // ================= SAFE FETCH =================
 
-async function getAllPages(url, pages = 1) {
+async function getAllPages(url, pages = 3) {
   let movies = [];
 
   for (let i = 1; i <= pages; i++) {
@@ -60,7 +60,7 @@ async function getAllPages(url, pages = 1) {
     backdrop: m.backdrop_path
       ? "https://image.tmdb.org/t/p/original" + m.backdrop_path
       : "",
-
+ 
     overview: m.overview || "",
     rating: m.vote_average || "",
     id: m.id,
@@ -105,25 +105,32 @@ app.get("/emmy", async (req, res) => {
 
 // ================= NEW CATEGORIES =================
 
-// 📚 Books (Book Adaptations)
-app.get("/books", async (req, res) => {
-  res.json(
-    await getAllPages(
-      `${BASE}/discover/movie?api_key=${KEY}&with_keywords=818`
-    )
-  );
+// 📚 Crime (Book Adaptations)
+app.get("/crime", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=80`
+  )
+ );
 });
 
-// 🎬 Shorts (Short Films)
-app.get("/short", async (req, res) => {
-  res.json(
-    await getAllPages(
-      `${BASE}/discover/movie?api_key=${KEY}&with_genres=10755`
-    )
-  );
+// 🎬 Family (Short Films)
+app.get("/family", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=10751`
+  )
+ );
 });
 
-
+// Fantasy
+app.get("/fantasy", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=14`
+  )
+ );
+});
 
 // 🏆 Sports
 app.get("/sports", async (req, res) => {
@@ -159,6 +166,88 @@ app.get("/reality", async (req, res) => {
       `${BASE}/discover/tv?api_key=${KEY}&with_genres=10764`
     )
   );
+});
+
+//Drama
+app.get("/drama", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=18`
+  )
+ );
+});
+
+// Horror
+app.get("/horror", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=27`
+  )
+ );
+});
+
+
+// Crime
+app.get("/crime", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=80`
+  )
+ );
+});
+
+// Family
+app.get("/family", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=10751`
+  )
+ );
+});
+
+// Fantasy
+app.get("/fantasy", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=14`
+  )
+ );
+});
+
+// Historical
+app.get("/historical", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=36`
+  )
+ );
+});
+
+// Sci-Fi
+app.get("/scifi", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=878`
+  )
+ );
+});
+
+// Romance
+app.get("/romance", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=10749`
+  )
+ );
+});
+
+// Action and Adventure
+app.get("/action", async (req,res)=>{
+ res.json(
+  await getAllPages(
+   `${BASE}/discover/movie?api_key=${KEY}&with_genres=28,12`
+  )
+ );
 });
 
 // ================= SEARCH =================
